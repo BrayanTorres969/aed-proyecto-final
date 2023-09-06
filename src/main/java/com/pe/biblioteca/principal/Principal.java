@@ -1,7 +1,7 @@
 package com.pe.biblioteca.principal;
 
 import com.pe.biblioteca.modelo.Libro;
-import com.pe.biblioteca.modelo.Servicios;
+import com.pe.biblioteca.modelo.ServicioDeOrdenamiento;
 
 import java.util.Scanner;
 
@@ -14,18 +14,20 @@ public class Principal {
         Libro lb3 = new Libro("Sin nombre", 30.2);
         Libro[] arreglo ={lb1,lb2,lb3};
         //menu
-        System.out.println("Bienbenido a la Biblioteca ");
+        System.out.println("Bienvenido a la Biblioteca Secreta  ");
         System.out.println("Elega una ordenar los libros");
         System.out.println("1= burbuja");
         eleccion =sc.nextInt();
         switch (eleccion){
             case 1:
-                Servicios.ordenarPorPrecio(arreglo);
+                ServicioDeOrdenamiento.ordenarPorPrecio(arreglo);
             case 2:;
             case 3:;
             default:;
         }
         //mostrar datos
+
+
         for (Libro libro : arreglo) {
             System.out.println("Nombre: " + libro.getNombre() + "\nPrecio: " + libro.getPrecio());
             System.out.println("--------------");
