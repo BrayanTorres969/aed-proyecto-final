@@ -1,6 +1,6 @@
 package com.pe.biblioteca.modelo;
 
-public class Servicios {
+public class ServicioDeOrdenamiento {
 
 
     //ordenamiento burbuja por precio
