@@ -1,7 +1,7 @@
 package com.pe.biblioteca.principal;
 
 import com.pe.biblioteca.modelo.Libro;
-import com.pe.biblioteca.modelo.ServicioDeOrdenamiento;
+import com.pe.biblioteca.service.ServicioDeOrdenamiento;
 
 import java.util.Scanner;
 

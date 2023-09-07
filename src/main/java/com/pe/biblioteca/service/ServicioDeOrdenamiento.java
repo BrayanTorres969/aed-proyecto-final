@@ -1,4 +1,6 @@
-package com.pe.biblioteca.modelo;
+package com.pe.biblioteca.service;
+
+import com.pe.biblioteca.modelo.Libro;
 
 public class ServicioDeOrdenamiento {
 
