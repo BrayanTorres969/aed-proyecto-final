@@ -4,7 +4,7 @@ import com.pe.biblioteca.modelo.Libro;
 import com.pe.biblioteca.service.ServicioDeOrdenamiento;
 import com.pe.biblioteca.service.ServicioDeBusqueda;
 
-import java.sql.SQLOutput;
+
 import java.util.Scanner;
 
 public class Principal {
@@ -93,7 +93,8 @@ public class Principal {
             sdo.ordenarPorPrecio(arreglo);
             MostrarDatos();
         } else if (op == 2) {
-            System.out.println("Código de Niki Nicol");
+          sdo.ordenarPorPrecio2(arreglo);
+          MostrarDatos();
         }
 
     }
