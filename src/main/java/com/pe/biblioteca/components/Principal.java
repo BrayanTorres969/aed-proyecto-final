@@ -4,6 +4,8 @@
  */
 package com.pe.biblioteca.components;
 
+import com.pe.biblioteca.modelo.Usuario;
+
 /**
  *
  * @author Brayan
@@ -15,6 +17,12 @@ public class Principal extends javax.swing.JPanel {
      */
     public Principal() {
         initComponents();
+    }
+    
+    public Principal(Usuario usuario){
+        initComponents();
+        this.lblNombreUsuario.setText(usuario.getNombre());
+        
     }
 
     /**

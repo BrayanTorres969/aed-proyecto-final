@@ -13,7 +13,7 @@ public class Principal {
     static ServicioDeBusqueda sb = new ServicioDeBusqueda();
     static ServicioDeOrdenamiento sdo = new ServicioDeOrdenamiento();
     static Libro arreglo[];
-
+    /*
     public static void main(String[] args) {
         int seguir;
 
@@ -133,4 +133,5 @@ public class Principal {
             System.out.println("--------------");
         }
     }
+*/
 }
