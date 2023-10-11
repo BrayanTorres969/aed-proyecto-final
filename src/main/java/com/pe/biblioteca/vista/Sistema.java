@@ -1,7 +1,7 @@
-package com.pe.biblioteca.modelo.vista;
+package com.pe.biblioteca.vista;
 
-import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterIJTheme;
 import com.pe.biblioteca.components.Principal;
+import com.pe.biblioteca.modelo.Usuario;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
@@ -10,19 +10,28 @@ import javax.swing.JPanel;
  * @author Brayan
  */
 public class Sistema extends javax.swing.JFrame {
+    
+    Usuario usuarioLogin;
 
     /**
      * Creates new form Sistema
      */
     public Sistema() {
         initComponents();
-        InitContent();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
     }
     
-    public void InitContent(){
-        ShowJPanel(new Principal());
+    public Sistema(Usuario usuarioLogeado) {
+        initComponents();
+        InitContent(usuarioLogeado);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
+        usuarioLogin = usuarioLogeado;
+    }
+    
+    public void InitContent(Usuario usuario){
+        ShowJPanel(new Principal(usuario));
     }
     
     public static void ShowJPanel(JPanel p){
@@ -57,7 +66,6 @@ public class Sistema extends javax.swing.JFrame {
         content = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1100, 650));
         setMinimumSize(new java.awt.Dimension(1100, 650));
 
         background.setBackground(new java.awt.Color(255, 255, 255));
@@ -223,7 +231,7 @@ public class Sistema extends javax.swing.JFrame {
 
     private void btnPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrincipalActionPerformed
         // TODO add your handling code here:
-        ShowJPanel(new Principal());
+        ShowJPanel(new Principal(usuarioLogin));
     }//GEN-LAST:event_btnPrincipalActionPerformed
 
     /**
@@ -231,7 +239,6 @@ public class Sistema extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         
-        FlatMaterialLighterIJTheme.setup ();
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             

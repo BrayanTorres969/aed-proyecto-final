@@ -1,7 +1,8 @@
-package com.pe.biblioteca.modelo.vista;
+package com.pe.biblioteca.vista;
 
-
-import java.awt.Color;
+import com.pe.biblioteca.modelo.Usuario;
+import java.util.LinkedList;
+import java.util.Queue;
 import javax.swing.*;
 
 /**
@@ -9,6 +10,8 @@ import javax.swing.*;
  * @author Brayan
  */
 public class Login extends javax.swing.JFrame {
+
+    private Queue<Usuario> usuarios;
 
     public Login() {
         initComponents();
@@ -18,12 +21,37 @@ public class Login extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         txtEmail.setText("brayan@gmail.com");
         txtContrasena.setText("123456");
+
+        usuarios = new LinkedList<>();
+        usuarios.offer(new Usuario(1, "Luis Perez", "luis@gmail.com", "luis123"));
+        usuarios.offer(new Usuario(2, "Nicol Ramos", "nicol@gmail.com", "nicol123"));
+        usuarios.offer(new Usuario(3, "Brayan Torres", "brayan@gmail.com", "123456"));
+
     }
 
     public void InitStyles() {
         jLabel1.putClientProperty("FlatLaf.styleClass", "h1");
     }
 
+    private void validar() {
+        String correo = txtEmail.getText();
+        String contrasena = String.valueOf(txtContrasena.getPassword());
+
+        if (!"".equals(correo) || !"".equals(contrasena)) {
+
+            for (Usuario usuario : usuarios) {
+                if (usuario.getEmail().equals(correo) && usuario.getContrasena().equals(contrasena)) {
+                    Sistema sis = new Sistema(usuario);
+                    sis.setVisible(true);
+                    dispose();
+                    return;
+                }
+            }
+
+            JOptionPane.showMessageDialog(this, "Email o contraseña incorrecta. \n", "AVISO", JOptionPane.ERROR_MESSAGE);
+
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -98,6 +126,11 @@ public class Login extends javax.swing.JFrame {
         btnIngresar.setText("Ingresar");
         btnIngresar.setBorderPainted(false);
         btnIngresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout rightSizeLayout = new javax.swing.GroupLayout(rightSize);
         rightSize.setLayout(rightSizeLayout);
@@ -165,10 +198,16 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+        // TODO add your handling code here:
+        validar();
+    }//GEN-LAST:event_btnIngresarActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Login().setVisible(true);
@@ -188,4 +227,5 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtContrasena;
     private javax.swing.JTextField txtEmail;
     // End of variables declaration//GEN-END:variables
+
 }
