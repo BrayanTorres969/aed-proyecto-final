@@ -1,5 +1,6 @@
 package com.pe.biblioteca.vista;
 
+import com.pe.biblioteca.components.Clientes;
 import com.pe.biblioteca.components.Libros;
 import com.pe.biblioteca.components.Principal;
 import com.pe.biblioteca.modelo.Usuario;
@@ -130,6 +131,11 @@ public class Sistema extends javax.swing.JFrame {
         btnClientes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnClientes.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnClientes.setIconTextGap(10);
+        btnClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClientesActionPerformed(evt);
+            }
+        });
 
         btnLibros.setBackground(new java.awt.Color(28, 56, 121));
         btnLibros.setForeground(new java.awt.Color(249, 245, 235));
@@ -244,6 +250,11 @@ public class Sistema extends javax.swing.JFrame {
         // TODO add your handling code here:
         ShowJPanel(new Libros());
     }//GEN-LAST:event_btnLibrosActionPerformed
+
+    private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
+        // TODO add your handling code here:
+        ShowJPanel(new Clientes());
+    }//GEN-LAST:event_btnClientesActionPerformed
 
     /**
      * @param args the command line arguments
