@@ -1,7 +1,11 @@
 package com.pe.biblioteca.components;
 
+import com.pe.biblioteca.modelo.Cliente;
+import com.pe.biblioteca.service.ListaEnlazada.ListaEnlazada;
+import com.pe.biblioteca.service.ListaEnlazada.Nodo;
 import com.pe.biblioteca.vista.Sistema;
-
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -9,6 +13,7 @@ import com.pe.biblioteca.vista.Sistema;
  */
 public class Clientes extends javax.swing.JPanel {
 
+    public static ListaEnlazada listaClientes = new ListaEnlazada();
 
     public Clientes() {
         initComponents();
@@ -22,7 +27,27 @@ public class Clientes extends javax.swing.JPanel {
         tablaClientes.setRowSelectionAllowed(true);
     }
 
-    private void cargarClientes() {
+    public void cargarClientes() {
+
+        try {
+
+            DefaultTableModel model = (DefaultTableModel) tablaClientes.getModel();
+            // Limpia la tabla antes de agregar los nuevos datos
+            model.setRowCount(0);
+
+            Nodo aux = listaClientes.getInicio();
+            while (aux != null) {
+                Cliente cliente = aux.getDato();
+                // Agrega una fila a la tabla con los datos del cliente
+                model.addRow(new Object[]{cliente.getId(), cliente.getNombre(), cliente.getDni(), cliente.getCelular(), cliente.getDireccion()});
+                aux = aux.getSiguiente();
+            }
+            tablaClientes.setModel(model);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -173,7 +198,22 @@ public class Clientes extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarClienteActionPerformed
+        int filaSeleccionada = tablaClientes.getSelectedRow();
 
+        if (filaSeleccionada >= 0) {
+            int idCliente = (int) tablaClientes.getValueAt(filaSeleccionada, 0); // Obtener el ID del cliente
+            int pregunta = JOptionPane.showConfirmDialog(this, "Esta seguro de eliminar", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+            if (pregunta == 0) {
+                // Buscar y eliminar el cliente en la lista
+                listaClientes.eliminarNodo(idCliente);
+                // Actualizar la tabla
+                DefaultTableModel modelo = (DefaultTableModel) tablaClientes.getModel();
+                modelo.removeRow(filaSeleccionada);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona un cliente para eliminar.", "AVISO", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnEliminarClienteActionPerformed
 
     private void btnEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarClienteActionPerformed
