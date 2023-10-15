@@ -1,5 +1,7 @@
 package com.pe.biblioteca.components;
 
+import com.pe.biblioteca.modelo.Libro;
+import com.pe.biblioteca.utils.Evento;
 import com.pe.biblioteca.vista.Sistema;
 import javax.swing.JOptionPane;
 
@@ -8,7 +10,7 @@ import javax.swing.JOptionPane;
  * @author Brayan
  */
 public class LibrosForm extends javax.swing.JPanel {
-
+    private Evento evento = new Evento();
 
     public LibrosForm() {
         initComponents();
@@ -94,8 +96,20 @@ public class LibrosForm extends javax.swing.JPanel {
         titleLbl1.setForeground(new java.awt.Color(96, 126, 170));
         titleLbl1.setText("Año de publicación: ");
 
+        txtStockLibro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtStockLibroKeyTyped(evt);
+            }
+        });
+
         jLabel1.setForeground(new java.awt.Color(96, 126, 170));
         jLabel1.setText("Stock:");
+
+        txtAnhoLibro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtAnhoLibroKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
         bg.setLayout(bgLayout);
@@ -189,12 +203,41 @@ public class LibrosForm extends javax.swing.JPanel {
 
     private void btnRegistrarLIbroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarLIbroActionPerformed
         // TODO add your handling code here:
+        // Validaciones para los campos
+        if ( "".equals(txtTituloLibro.getText()) || "".equals(txtAutorLibro.getText()) || "".equals(txtCategoriaLibro.getText()) || "".equals(txtAnhoLibro.getText())|| "".equals(txtStockLibro.getText())) {
+            JOptionPane.showMessageDialog(this, "Debe llenar todos los campos. \n", "AVISO", JOptionPane.ERROR_MESSAGE);
+            txtTituloLibro.requestFocus();
+            return;
+        }
+        int id = Libros.listaLibros.getLibros().size() + 1;
+        String tituloLibro = txtTituloLibro.getText();
+        String autor = txtAutorLibro.getText();
+        String categoria = txtCategoriaLibro.getText();
+        int anho = Integer.parseInt(txtAnhoLibro.getText());
+        int stock = Integer.parseInt(txtStockLibro.getText());
+        
+       Libro libro = new Libro(id, tituloLibro, autor, categoria, anho, stock);
+       
+       Libros.listaLibros.apilarLibro(libro);
+
+        JOptionPane.showMessageDialog(this, "Libro agregado exitosamente.\n", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+        limpiarForm();
     }//GEN-LAST:event_btnRegistrarLIbroActionPerformed
 
     private void btnRegresarPanelLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarPanelLibroActionPerformed
         // TODO add your handling code here:
         Sistema.ShowJPanel(new Libros());
     }//GEN-LAST:event_btnRegresarPanelLibroActionPerformed
+
+    private void txtAnhoLibroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAnhoLibroKeyTyped
+        // TODO add your handling code here:
+        evento.numberKeyPress(evt);
+    }//GEN-LAST:event_txtAnhoLibroKeyTyped
+
+    private void txtStockLibroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtStockLibroKeyTyped
+        // TODO add your handling code here:
+        evento.numberKeyPress(evt);
+    }//GEN-LAST:event_txtStockLibroKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

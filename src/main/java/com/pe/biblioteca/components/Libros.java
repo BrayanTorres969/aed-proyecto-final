@@ -1,9 +1,10 @@
 package com.pe.biblioteca.components;
 
-
+import com.pe.biblioteca.modelo.Libro;
+import com.pe.biblioteca.service.Pilas.PilaLibros;
 import com.pe.biblioteca.vista.Sistema;
 import javax.swing.JOptionPane;
-
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -11,6 +12,7 @@ import javax.swing.JOptionPane;
  */
 public class Libros extends javax.swing.JPanel {
 
+    public static PilaLibros listaLibros = new PilaLibros();
 
     public Libros() {
         initComponents();
@@ -25,6 +27,22 @@ public class Libros extends javax.swing.JPanel {
     }
 
     private void cargarLibros() {
+
+        try {
+            DefaultTableModel model = (DefaultTableModel) tablaLibros.getModel();
+            // Limpia la tabla antes de agregar los nuevos datos
+            model.setRowCount(0);
+
+            for (Libro libro : listaLibros.getLibros()) {
+                // Agrega una fila a la tabla con los datos del libro
+                model.addRow(new Object[]{libro.getId(), libro.getTitulo(), libro.getAutor(), libro.getCategoria(), libro.getAnhoPublicacion(), libro.getStock()});
+            }
+
+            tablaLibros.setModel(model);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -183,6 +201,33 @@ public class Libros extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarLIbroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarLIbroActionPerformed
+        int filaSeleccionada = tablaLibros.getSelectedRow();
+        if (filaSeleccionada >= 0) {
+            int idLibro = (int) tablaLibros.getValueAt(filaSeleccionada, 0); // Obtener el ID del libro
+            int pregunta = JOptionPane.showConfirmDialog(this, "Esta seguro de eliminar", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+            if (pregunta == 0) {
+                // Buscar y eliminar el libro en la pila
+                listaLibros.elminarLibro(idLibro);
+                // Actualizar la tabla
+                cargarLibros();
+            }
+
+        } else {
+            if (!listaLibros.getLibros().isEmpty()) {
+                int pregunta = JOptionPane.showConfirmDialog(this, "Esta seguro de eliminar el último libro", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+                if (pregunta == 0) {
+                    // Buscar y eliminar el cliente en la lista
+                    listaLibros.desapilarLibro();
+                    // Actualizar la tabla
+                    cargarLibros();
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "La pila de libros esta vacía", "AVISO", JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
+
 
     }//GEN-LAST:event_btnEliminarLIbroActionPerformed
 
