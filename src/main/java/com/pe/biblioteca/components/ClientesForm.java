@@ -233,7 +233,6 @@ public class ClientesForm extends javax.swing.JPanel {
 
         JOptionPane.showMessageDialog(this, "Cliente agregado exitosamente.\n", "AVISO", JOptionPane.INFORMATION_MESSAGE);
         limpiarForm();
-        // Llama a cargarClientes para actualizar la tabla
 
     }//GEN-LAST:event_btnRegistrarClienteActionPerformed
 
