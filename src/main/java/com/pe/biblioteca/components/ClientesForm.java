@@ -1,6 +1,7 @@
 package com.pe.biblioteca.components;
 
-
+import com.pe.biblioteca.modelo.Cliente;
+import com.pe.biblioteca.utils.Evento;
 import com.pe.biblioteca.vista.Sistema;
 import javax.swing.JOptionPane;
 
@@ -9,8 +10,8 @@ import javax.swing.JOptionPane;
  * @author Brayan
  */
 public class ClientesForm extends javax.swing.JPanel {
-
-
+    
+    private Evento evento = new Evento();
 
     public ClientesForm() {
         initComponents();
@@ -18,7 +19,6 @@ public class ClientesForm extends javax.swing.JPanel {
         txtIdCliente.setVisible(false);
 
     }
-
 
     public void InitStyles() {
 
@@ -49,6 +49,8 @@ public class ClientesForm extends javax.swing.JPanel {
         txtCelCliente = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         txtDireccionCliente = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        cbxAgregar = new javax.swing.JComboBox<>();
 
         bg.setBackground(new java.awt.Color(249, 245, 235));
 
@@ -86,8 +88,20 @@ public class ClientesForm extends javax.swing.JPanel {
         jLabel2.setForeground(new java.awt.Color(96, 126, 170));
         jLabel2.setText("DNI:");
 
+        txtDniCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDniClienteKeyTyped(evt);
+            }
+        });
+
         jLabel3.setForeground(new java.awt.Color(96, 126, 170));
         jLabel3.setText("Celular:");
+
+        txtCelCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCelClienteKeyTyped(evt);
+            }
+        });
 
         jLabel1.setForeground(new java.awt.Color(96, 126, 170));
         jLabel1.setText("Dirección:");
@@ -97,6 +111,12 @@ public class ClientesForm extends javax.swing.JPanel {
                 txtDireccionClienteActionPerformed(evt);
             }
         });
+
+        jLabel5.setForeground(new java.awt.Color(96, 126, 170));
+        jLabel5.setText("Agregar al:");
+
+        cbxAgregar.setForeground(new java.awt.Color(96, 126, 170));
+        cbxAgregar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "principio", "final" }));
 
         javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
         bg.setLayout(bgLayout);
@@ -120,21 +140,23 @@ public class ClientesForm extends javax.swing.JPanel {
                         .addGap(509, 509, 509)
                         .addComponent(jLabel1))
                     .addGroup(bgLayout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addComponent(txtDniCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(222, 222, 222)
-                        .addComponent(txtDireccionCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(bgLayout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(bgLayout.createSequentialGroup()
                         .addGap(480, 480, 480)
                         .addComponent(btnRegresarPanelCliente)
                         .addGap(16, 16, 16)
                         .addComponent(btnRegistrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(bgLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(bgLayout.createSequentialGroup()
+                        .addGap(152, 152, 152)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtDniCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(222, 222, 222)
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtDireccionCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(cbxAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(106, Short.MAX_VALUE))
         );
         bgLayout.setVerticalGroup(
@@ -162,9 +184,13 @@ public class ClientesForm extends javax.swing.JPanel {
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtDniCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtDireccionCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(135, 135, 135)
-                .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
+                .addGap(25, 25, 25)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(98, 98, 98)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnRegresarPanelCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRegistrarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -184,6 +210,30 @@ public class ClientesForm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarClienteActionPerformed
+        // Validaciones para los campos
+        if ( "".equals(txtNombreCliente.getText()) || "".equals(txtDniCliente.getText()) || "".equals(txtCelCliente.getText()) || "".equals(txtDireccionCliente.getText())) {
+            JOptionPane.showMessageDialog(this, "Debe llenar todos los campos. \n", "AVISO", JOptionPane.ERROR_MESSAGE);
+            txtNombreCliente.requestFocus();
+            return;
+        }
+        //int id = Integer.parseInt(txtIdCliente.getText());
+        int id = Clientes.listaClientes.cantidadNodos()+1;
+        String nombre = txtNombreCliente.getText();
+        String dni = txtDniCliente.getText();
+        String celular = txtCelCliente.getText();
+        String direccion = txtDireccionCliente.getText();
+        Cliente cliente = new Cliente(id, nombre, dni, celular, direccion);
+        String opcion = cbxAgregar.getSelectedItem().toString();
+        if (opcion.equals("principio")) {
+            Clientes.listaClientes.agregarAlInicio(cliente);
+
+        } else if (opcion.equals("final")) {
+           Clientes.listaClientes.agregarAlFinal(cliente);
+        }
+
+        JOptionPane.showMessageDialog(this, "Cliente agregado exitosamente.\n", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+        limpiarForm();
+        // Llama a cargarClientes para actualizar la tabla
 
     }//GEN-LAST:event_btnRegistrarClienteActionPerformed
 
@@ -196,14 +246,26 @@ public class ClientesForm extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDireccionClienteActionPerformed
 
+    private void txtCelClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCelClienteKeyTyped
+        // TODO add your handling code here:
+        evento.numberKeyPress(evt);
+    }//GEN-LAST:event_txtCelClienteKeyTyped
+
+    private void txtDniClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDniClienteKeyTyped
+        // TODO add your handling code here:
+        evento.numberKeyPress(evt);
+    }//GEN-LAST:event_txtDniClienteKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
     private javax.swing.JButton btnRegistrarCliente;
     private javax.swing.JButton btnRegresarPanelCliente;
+    private javax.swing.JComboBox<String> cbxAgregar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel titleLbl;
     private javax.swing.JLabel titulo;
     private javax.swing.JTextField txtCelCliente;
