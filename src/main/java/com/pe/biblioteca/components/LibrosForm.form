@@ -228,6 +228,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtStockLibro">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtStockLibroKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
@@ -238,6 +241,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtAnhoLibro">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtAnhoLibroKeyTyped"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
