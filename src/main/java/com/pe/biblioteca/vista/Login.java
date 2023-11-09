@@ -1,8 +1,8 @@
 package com.pe.biblioteca.vista;
 
+import com.pe.biblioteca.dao.LoginDao;
+import com.pe.biblioteca.daoimpl.UsuarioDaoImpl;
 import com.pe.biblioteca.modelo.Usuario;
-import java.util.LinkedList;
-import java.util.Queue;
 import javax.swing.*;
 
 /**
@@ -11,7 +11,8 @@ import javax.swing.*;
  */
 public class Login extends javax.swing.JFrame {
 
-    private Queue<Usuario> usuarios;
+    Usuario usuarioLogin = new Usuario();
+    LoginDao usuarioDao = new UsuarioDaoImpl();
 
     public Login() {
         initComponents();
@@ -21,11 +22,6 @@ public class Login extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         txtEmail.setText("brayan@gmail.com");
         txtContrasena.setText("123456");
-
-        usuarios = new LinkedList<>();
-        usuarios.offer(new Usuario(1, "Luis Perez", "luis@gmail.com", "luis123"));
-        usuarios.offer(new Usuario(2, "Nicol Ramos", "nicol@gmail.com", "nicol123"));
-        usuarios.offer(new Usuario(3, "Brayan Torres", "brayan@gmail.com", "123456"));
 
     }
 
@@ -39,16 +35,15 @@ public class Login extends javax.swing.JFrame {
 
         if (!"".equals(correo) || !"".equals(contrasena)) {
 
-            for (Usuario usuario : usuarios) {
-                if (usuario.getEmail().equals(correo) && usuario.getContrasena().equals(contrasena)) {
-                    Sistema sis = new Sistema(usuario);
-                    sis.setVisible(true);
-                    dispose();
-                    return;
-                }
-            }
+            usuarioLogin = usuarioDao.iniciarSesion(correo, contrasena);
 
-            JOptionPane.showMessageDialog(this, "Email o contraseña incorrecta. \n", "AVISO", JOptionPane.ERROR_MESSAGE);
+            if (usuarioLogin != null && usuarioLogin.getEmail() != null && usuarioLogin.getContrasena() != null) {
+                Sistema sis = new Sistema(usuarioLogin);
+                sis.setVisible(true);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Email o contraseña incorrecta. \n", "AVISO", JOptionPane.ERROR_MESSAGE);
+            }
 
         }
     }
