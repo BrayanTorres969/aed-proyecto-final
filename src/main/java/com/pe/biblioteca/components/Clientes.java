@@ -1,9 +1,11 @@
 package com.pe.biblioteca.components;
 
+import com.pe.biblioteca.dao.ClienteDao;
+import com.pe.biblioteca.daoimpl.ClienteDaoImpl;
 import com.pe.biblioteca.modelo.Cliente;
-import com.pe.biblioteca.service.ListaEnlazada.ListaEnlazada;
-import com.pe.biblioteca.service.ListaEnlazada.Nodo;
+
 import com.pe.biblioteca.vista.Sistema;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -13,12 +15,11 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Clientes extends javax.swing.JPanel {
 
-    public static ListaEnlazada listaClientes = new ListaEnlazada();
+    ClienteDao clienteDao = new ClienteDaoImpl();
 
     public Clientes() {
         initComponents();
         InitStyles();
-        btnEditarCliente.setVisible(false);
         cargarClientes();
     }
 
@@ -27,27 +28,25 @@ public class Clientes extends javax.swing.JPanel {
         tablaClientes.setRowSelectionAllowed(true);
     }
 
-    public void cargarClientes() {
-
+    private void cargarClientes() {
         try {
-
+            List<Cliente> listaClientes = clienteDao.findAll();
             DefaultTableModel model = (DefaultTableModel) tablaClientes.getModel();
-            // Limpia la tabla antes de agregar los nuevos datos
-            model.setRowCount(0);
+            Object[] ob = new Object[5];
+            for (int i = 0; i < listaClientes.size(); i++) {
+                ob[0] = listaClientes.get(i).getId();
+                ob[1] = listaClientes.get(i).getNombre();
+                ob[2] = listaClientes.get(i).getDni();
+                ob[3] = listaClientes.get(i).getCelular();
+                ob[4] = listaClientes.get(i).getDireccion();
 
-            Nodo aux = listaClientes.getInicio();
-            while (aux != null) {
-                Cliente cliente = aux.getDato();
-                // Agrega una fila a la tabla con los datos del cliente
-                model.addRow(new Object[]{cliente.getId(), cliente.getNombre(), cliente.getDni(), cliente.getCelular(), cliente.getDireccion()});
-                aux = aux.getSiguiente();
+                model.addRow(ob);
             }
             tablaClientes.setModel(model);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
     }
 
     @SuppressWarnings("unchecked")
@@ -198,26 +197,39 @@ public class Clientes extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarClienteActionPerformed
+        DefaultTableModel model = (DefaultTableModel) tablaClientes.getModel();
+
+        // Obtén la fila seleccionada
         int filaSeleccionada = tablaClientes.getSelectedRow();
 
-        if (filaSeleccionada >= 0) {
-            int idCliente = (int) tablaClientes.getValueAt(filaSeleccionada, 0); // Obtener el ID del cliente
-            int pregunta = JOptionPane.showConfirmDialog(this, "Esta seguro de eliminar", "AVISO", JOptionPane.INFORMATION_MESSAGE);
-            if (pregunta == 0) {
-                // Buscar y eliminar el cliente en la lista
-                listaClientes.eliminarNodo(idCliente);
-                // Actualizar la tabla
-                DefaultTableModel modelo = (DefaultTableModel) tablaClientes.getModel();
-                modelo.removeRow(filaSeleccionada);
-            }
-
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar una fila para eliminar.\n", "AVISO", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(this, "Por favor, selecciona un cliente para eliminar.", "AVISO", JOptionPane.ERROR_MESSAGE);
+            try {
+                int id = (int) tablaClientes.getValueAt(filaSeleccionada, 0);
+                int pregunta = JOptionPane.showConfirmDialog(this, "Esta seguro de eliminar", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+                if (pregunta == 0) {
+                    clienteDao.delete(id);
+                    model.removeRow(filaSeleccionada);
+                }
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }//GEN-LAST:event_btnEliminarClienteActionPerformed
 
     private void btnEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarClienteActionPerformed
-
+        if (tablaClientes.getSelectedRow() > -1) {
+            try {
+                int id = (int) tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0);
+                Sistema.ShowJPanel(new ClientesForm(clienteDao.findById(id)));
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Debes seleccionar el cliente a editar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnEditarClienteActionPerformed
 
     private void btnNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoClienteActionPerformed
@@ -227,6 +239,30 @@ public class Clientes extends javax.swing.JPanel {
 
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
 
+        try {
+            DefaultTableModel model = (DefaultTableModel) tablaClientes.getModel();
+            model.setRowCount(0); // Limpiar la tabla antes de agregar nuevos registros
+
+            List<Cliente> listaClientes = clienteDao.findAllByNombre(txtBuscarCliente.getText());
+
+            if (listaClientes.isEmpty()) {
+                // Mostrar una alerta si no se encontraron registros
+                JOptionPane.showMessageDialog(this, "No se encontraron registros", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                Object[] ob = new Object[5];
+                for (int i = 0; i < listaClientes.size(); i++) {
+                    ob[0] = listaClientes.get(i).getId();
+                    ob[1] = listaClientes.get(i).getNombre();
+                    ob[2] = listaClientes.get(i).getDni();
+                    ob[3] = listaClientes.get(i).getCelular();
+                    ob[4] = listaClientes.get(i).getDireccion();
+
+                    model.addRow(ob);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
 
