@@ -1,5 +1,7 @@
 package com.pe.biblioteca.components;
 
+import com.pe.biblioteca.dao.LibroDao;
+import com.pe.biblioteca.daoimpl.LibroDaoImpl;
 import com.pe.biblioteca.modelo.Libro;
 import com.pe.biblioteca.utils.Evento;
 import com.pe.biblioteca.vista.Sistema;
@@ -10,6 +12,10 @@ import javax.swing.JOptionPane;
  * @author Brayan
  */
 public class LibrosForm extends javax.swing.JPanel {
+
+    private LibroDao libroDao = new LibroDaoImpl();
+    private boolean esEditar = false;
+    private Libro libroEditar;
     private Evento evento = new Evento();
 
     public LibrosForm() {
@@ -18,7 +24,32 @@ public class LibrosForm extends javax.swing.JPanel {
 
     }
 
+    public LibrosForm(Libro libro) {
+        initComponents();
+        esEditar = true;
+        libroEditar = libro;
+        txtIdLibro.setVisible(false);
+        InitStyles();
+    }
 
+    public void InitStyles() {
+
+        if (esEditar) {
+            titulo.setText("Editar Libro");
+            txtIdLibro.setEnabled(false);
+
+            if (libroEditar != null) {
+                txtIdLibro.setText(String.valueOf(libroEditar.getId()));
+                txtTituloLibro.setText(libroEditar.getTitulo());
+                txtAutorLibro.setText(libroEditar.getAutor());
+                txtCategoriaLibro.setText(libroEditar.getCategoria());
+                txtAnhoLibro.setText(String.valueOf(libroEditar.getAnhoPublicacion()));
+                txtStockLibro.setText(String.valueOf(libroEditar.getStock()));
+
+            }
+
+        }
+    }
 
     public void limpiarForm() {
         txtIdLibro.setText("");
@@ -204,24 +235,44 @@ public class LibrosForm extends javax.swing.JPanel {
     private void btnRegistrarLIbroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarLIbroActionPerformed
         // TODO add your handling code here:
         // Validaciones para los campos
-        if ( "".equals(txtTituloLibro.getText()) || "".equals(txtAutorLibro.getText()) || "".equals(txtCategoriaLibro.getText()) || "".equals(txtAnhoLibro.getText())|| "".equals(txtStockLibro.getText())) {
+        if ("".equals(txtTituloLibro.getText()) || "".equals(txtAutorLibro.getText()) || "".equals(txtCategoriaLibro.getText()) || "".equals(txtAnhoLibro.getText()) || "".equals(txtStockLibro.getText())) {
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos. \n", "AVISO", JOptionPane.ERROR_MESSAGE);
             txtTituloLibro.requestFocus();
             return;
         }
-        int id = Libros.listaLibros.getLibros().size() + 1;
-        String tituloLibro = txtTituloLibro.getText();
+        String titulo = txtTituloLibro.getText();
         String autor = txtAutorLibro.getText();
         String categoria = txtCategoriaLibro.getText();
-        int anho = Integer.parseInt(txtAnhoLibro.getText());
+        int anhoPublicacion = Integer.parseInt(txtAnhoLibro.getText());
         int stock = Integer.parseInt(txtStockLibro.getText());
-        
-       Libro libro = new Libro(id, tituloLibro, autor, categoria, anho, stock);
-       
-       Libros.listaLibros.apilarLibro(libro);
 
-        JOptionPane.showMessageDialog(this, "Libro agregado exitosamente.\n", "AVISO", JOptionPane.INFORMATION_MESSAGE);
-        limpiarForm();
+        Libro libro = esEditar ? libroEditar : new Libro();
+
+        libro.setTitulo(titulo);
+        libro.setAutor(autor);
+        libro.setCategoria(categoria);
+        libro.setAnhoPublicacion(anhoPublicacion);
+        libro.setStock(stock);
+        try {
+
+            if (!esEditar) {
+                libroDao.save(libro);
+            } else {
+                int id = Integer.parseInt(txtIdLibro.getText());
+                libro.setId(id);
+                libroDao.update(libro);
+            }
+
+            String successMsg = esEditar ? "modificado" : "registrado";
+
+            JOptionPane.showMessageDialog(this, "Libro " + successMsg + " exitosamente.\n", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+            if (!esEditar) {
+                limpiarForm();
+            }
+        } catch (Exception e) {
+            String errorMsg = esEditar ? "modificar" : "registrar";
+            JOptionPane.showMessageDialog(this, "Ocurrió un error al " + errorMsg + " el libro. \n", "AVISO", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnRegistrarLIbroActionPerformed
 
     private void btnRegresarPanelLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarPanelLibroActionPerformed

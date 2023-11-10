@@ -1,8 +1,10 @@
 package com.pe.biblioteca.components;
 
+import com.pe.biblioteca.dao.LibroDao;
+import com.pe.biblioteca.daoimpl.LibroDaoImpl;
 import com.pe.biblioteca.modelo.Libro;
-import com.pe.biblioteca.service.Pilas.PilaLibros;
 import com.pe.biblioteca.vista.Sistema;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -12,12 +14,11 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Libros extends javax.swing.JPanel {
 
-    public static PilaLibros listaLibros = new PilaLibros();
+    LibroDao libroDao = new LibroDaoImpl();
 
     public Libros() {
         initComponents();
         InitStyles();
-        this.btnEditarLibro.setVisible(false);
         cargarLibros();
     }
 
@@ -27,17 +28,20 @@ public class Libros extends javax.swing.JPanel {
     }
 
     private void cargarLibros() {
-
         try {
+            List<Libro> listalbs = libroDao.findAll();
             DefaultTableModel model = (DefaultTableModel) tablaLibros.getModel();
-            // Limpia la tabla antes de agregar los nuevos datos
-            model.setRowCount(0);
+            Object[] ob = new Object[6];
+            for (int i = 0; i < listalbs.size(); i++) {
+                ob[0] = listalbs.get(i).getId();
+                ob[1] = listalbs.get(i).getTitulo();
+                ob[2] = listalbs.get(i).getAutor();
+                ob[3] = listalbs.get(i).getCategoria();
+                ob[4] = listalbs.get(i).getAnhoPublicacion();
+                ob[5] = listalbs.get(i).getStock();
 
-            for (Libro libro : listaLibros.getLibros()) {
-                // Agrega una fila a la tabla con los datos del libro
-                model.addRow(new Object[]{libro.getId(), libro.getTitulo(), libro.getAutor(), libro.getCategoria(), libro.getAnhoPublicacion(), libro.getStock()});
+                model.addRow(ob);
             }
-
             tablaLibros.setModel(model);
 
         } catch (Exception e) {
@@ -77,6 +81,11 @@ public class Libros extends javax.swing.JPanel {
         btnBuscarLibro.setText("Buscar");
         btnBuscarLibro.setBorderPainted(false);
         btnBuscarLibro.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBuscarLibro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarLibroActionPerformed(evt);
+            }
+        });
 
         tablaLibros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -201,44 +210,73 @@ public class Libros extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarLIbroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarLIbroActionPerformed
+        DefaultTableModel model = (DefaultTableModel) tablaLibros.getModel();
+
+        // Obtén la fila seleccionada
         int filaSeleccionada = tablaLibros.getSelectedRow();
-        if (filaSeleccionada >= 0) {
-            int idLibro = (int) tablaLibros.getValueAt(filaSeleccionada, 0); // Obtener el ID del libro
-            int pregunta = JOptionPane.showConfirmDialog(this, "Esta seguro de eliminar", "AVISO", JOptionPane.INFORMATION_MESSAGE);
-            if (pregunta == 0) {
-                // Buscar y eliminar el libro en la pila
-                listaLibros.elminarLibro(idLibro);
-                // Actualizar la tabla
-                cargarLibros();
-            }
 
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar una fila para eliminar.\n", "AVISO", JOptionPane.ERROR_MESSAGE);
         } else {
-            if (!listaLibros.getLibros().isEmpty()) {
-                int pregunta = JOptionPane.showConfirmDialog(this, "Esta seguro de eliminar el último libro", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+            try {
+                int id = (int) tablaLibros.getValueAt(filaSeleccionada, 0);
+                int pregunta = JOptionPane.showConfirmDialog(this, "Esta seguro de eliminar", "AVISO", JOptionPane.INFORMATION_MESSAGE);
                 if (pregunta == 0) {
-                    // Buscar y eliminar el cliente en la lista
-                    listaLibros.desapilarLibro();
-                    // Actualizar la tabla
-                    cargarLibros();
-
+                    libroDao.delete(id);
+                    model.removeRow(filaSeleccionada);
                 }
-            } else {
-                JOptionPane.showMessageDialog(this, "La pila de libros esta vacía", "AVISO", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
-
         }
-
-
     }//GEN-LAST:event_btnEliminarLIbroActionPerformed
 
     private void btnEditarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarLibroActionPerformed
-
+        if (tablaLibros.getSelectedRow() > -1) {
+            try {
+                int id = (int) tablaLibros.getValueAt(tablaLibros.getSelectedRow(), 0);
+                Sistema.ShowJPanel(new LibrosForm(libroDao.searchById(id)));
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Debes seleccionar el libro a editar.\n", "AVISO", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnEditarLibroActionPerformed
 
     private void btnNuevoLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoLibroActionPerformed
         // TODO add your handling code here:
         Sistema.ShowJPanel(new LibrosForm());
     }//GEN-LAST:event_btnNuevoLibroActionPerformed
+
+    private void btnBuscarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarLibroActionPerformed
+        // TODO add your handling code here:
+        try {
+            DefaultTableModel model = (DefaultTableModel) tablaLibros.getModel();
+            model.setRowCount(0); // Limpiar la tabla antes de agregar nuevos registros
+
+            List<Libro> listaLibros = libroDao.findAllByTitle(txtBuscarLibro.getText());
+
+            if (listaLibros.isEmpty()) {
+                // Mostrar una alerta si no se encontraron registros
+                JOptionPane.showMessageDialog(this, "No se encontraron registros", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                Object[] ob = new Object[6];
+                for (int i = 0; i < listaLibros.size(); i++) {
+                    ob[0] = listaLibros.get(i).getId();
+                    ob[1] = listaLibros.get(i).getTitulo();
+                    ob[2] = listaLibros.get(i).getAutor();
+                    ob[3] = listaLibros.get(i).getCategoria();
+                    ob[4] = listaLibros.get(i).getAnhoPublicacion();
+                    ob[5] = listaLibros.get(i).getStock();
+
+                    model.addRow(ob);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_btnBuscarLibroActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
