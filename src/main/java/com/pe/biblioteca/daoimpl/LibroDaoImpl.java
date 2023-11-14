@@ -72,7 +72,7 @@ public class LibroDaoImpl implements LibroDao {
 
     @Override
     public Libro searchById(int id) {
-        Libro libro = new Libro();
+        Libro libro = null;
         String sql = "SELECT * FROM libro WHERE id = ?";
         try {
             con = Conexion.conectar();
@@ -81,6 +81,7 @@ public class LibroDaoImpl implements LibroDao {
             rs = ps.executeQuery();
 
             if (rs.next()) {
+                libro = new Libro();
                 libro.setId(rs.getInt("id"));
                 libro.setTitulo(rs.getString("titulo"));
                 libro.setAutor(rs.getString("autor"));

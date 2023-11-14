@@ -2,7 +2,9 @@ package com.pe.biblioteca.vista;
 
 import com.pe.biblioteca.components.Clientes;
 import com.pe.biblioteca.components.Libros;
+import com.pe.biblioteca.components.Prestamos;
 import com.pe.biblioteca.components.Principal;
+import com.pe.biblioteca.components.Registros;
 import com.pe.biblioteca.modelo.Usuario;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
@@ -59,7 +61,7 @@ public class Sistema extends javax.swing.JFrame {
         header = new javax.swing.JPanel();
         logo = new javax.swing.JLabel();
         titulo = new javax.swing.JLabel();
-        btnReportes = new javax.swing.JButton();
+        btnRegistros = new javax.swing.JButton();
         btnPrincipal = new javax.swing.JButton();
         btnPrestamos = new javax.swing.JButton();
         btnDevoluciones = new javax.swing.JButton();
@@ -82,13 +84,18 @@ public class Sistema extends javax.swing.JFrame {
         titulo.setForeground(new java.awt.Color(249, 245, 235));
         titulo.setText("SISTEMA DE GESTIÓN BIBLIOTECARIA");
 
-        btnReportes.setBackground(new java.awt.Color(28, 56, 121));
-        btnReportes.setForeground(new java.awt.Color(249, 245, 235));
-        btnReportes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/file-chart.png"))); // NOI18N
-        btnReportes.setText("Reportes");
-        btnReportes.setBorderPainted(false);
-        btnReportes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnReportes.setIconTextGap(10);
+        btnRegistros.setBackground(new java.awt.Color(28, 56, 121));
+        btnRegistros.setForeground(new java.awt.Color(249, 245, 235));
+        btnRegistros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/file-chart.png"))); // NOI18N
+        btnRegistros.setText("Registros");
+        btnRegistros.setBorderPainted(false);
+        btnRegistros.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegistros.setIconTextGap(10);
+        btnRegistros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrosActionPerformed(evt);
+            }
+        });
 
         btnPrincipal.setBackground(new java.awt.Color(28, 56, 121));
         btnPrincipal.setForeground(new java.awt.Color(249, 245, 235));
@@ -113,6 +120,11 @@ public class Sistema extends javax.swing.JFrame {
         btnPrestamos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPrestamos.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnPrestamos.setIconTextGap(10);
+        btnPrestamos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrestamosActionPerformed(evt);
+            }
+        });
 
         btnDevoluciones.setBackground(new java.awt.Color(28, 56, 121));
         btnDevoluciones.setForeground(new java.awt.Color(249, 245, 235));
@@ -174,7 +186,7 @@ public class Sistema extends javax.swing.JFrame {
                         .addGap(0, 0, 0)
                         .addComponent(btnLibros, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(155, Short.MAX_VALUE))))
         );
         headerLayout.setVerticalGroup(
@@ -188,7 +200,7 @@ public class Sistema extends javax.swing.JFrame {
                 .addComponent(titulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPrestamos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDevoluciones, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -256,6 +268,16 @@ public class Sistema extends javax.swing.JFrame {
         ShowJPanel(new Clientes());
     }//GEN-LAST:event_btnClientesActionPerformed
 
+    private void btnPrestamosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrestamosActionPerformed
+        // TODO add your handling code here:
+        ShowJPanel(new Prestamos());
+    }//GEN-LAST:event_btnPrestamosActionPerformed
+
+    private void btnRegistrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrosActionPerformed
+        // TODO add your handling code here:
+        ShowJPanel(new Registros());
+    }//GEN-LAST:event_btnRegistrosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -277,7 +299,7 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JButton btnLibros;
     private javax.swing.JButton btnPrestamos;
     private javax.swing.JButton btnPrincipal;
-    private javax.swing.JButton btnReportes;
+    private javax.swing.JButton btnRegistros;
     private static javax.swing.JPanel content;
     private javax.swing.JPanel header;
     private javax.swing.JLabel logo;

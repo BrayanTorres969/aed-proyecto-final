@@ -100,7 +100,7 @@
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                               <Component id="btnLibros" min="-2" pref="123" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                              <Component id="btnReportes" min="-2" pref="123" max="-2" attributes="0"/>
+                              <Component id="btnRegistros" min="-2" pref="123" max="-2" attributes="0"/>
                               <EmptySpace pref="155" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -119,7 +119,7 @@
                       <Component id="titulo" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="17" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnReportes" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="btnRegistros" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="btnPrincipal" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="btnPrestamos" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="btnDevoluciones" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
@@ -150,7 +150,7 @@
                 <Property name="text" type="java.lang.String" value="SISTEMA DE GESTI&#xd3;N BIBLIOTECARIA"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="btnReportes">
+            <Component class="javax.swing.JButton" name="btnRegistros">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="79" green="38" red="1c" type="rgb"/>
@@ -161,13 +161,16 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/file-chart.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Reportes"/>
+                <Property name="text" type="java.lang.String" value="Registros"/>
                 <Property name="borderPainted" type="boolean" value="false"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Hand Cursor"/>
                 </Property>
                 <Property name="iconTextGap" type="int" value="10"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegistrosActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnPrincipal">
               <Properties>
@@ -214,6 +217,9 @@
                 <Property name="horizontalAlignment" type="int" value="2"/>
                 <Property name="iconTextGap" type="int" value="10"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrestamosActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnDevoluciones">
               <Properties>
