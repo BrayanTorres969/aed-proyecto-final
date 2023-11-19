@@ -1,6 +1,7 @@
 package com.pe.biblioteca.vista;
 
 import com.pe.biblioteca.components.Clientes;
+import com.pe.biblioteca.components.Devoluciones;
 import com.pe.biblioteca.components.Libros;
 import com.pe.biblioteca.components.Prestamos;
 import com.pe.biblioteca.components.Principal;
@@ -134,6 +135,11 @@ public class Sistema extends javax.swing.JFrame {
         btnDevoluciones.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDevoluciones.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnDevoluciones.setIconTextGap(10);
+        btnDevoluciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDevolucionesActionPerformed(evt);
+            }
+        });
 
         btnClientes.setBackground(new java.awt.Color(28, 56, 121));
         btnClientes.setForeground(new java.awt.Color(249, 245, 235));
@@ -277,6 +283,11 @@ public class Sistema extends javax.swing.JFrame {
         // TODO add your handling code here:
         ShowJPanel(new Registros());
     }//GEN-LAST:event_btnRegistrosActionPerformed
+
+    private void btnDevolucionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDevolucionesActionPerformed
+        // TODO add your handling code here:
+        ShowJPanel(new Devoluciones());
+    }//GEN-LAST:event_btnDevolucionesActionPerformed
 
     /**
      * @param args the command line arguments
