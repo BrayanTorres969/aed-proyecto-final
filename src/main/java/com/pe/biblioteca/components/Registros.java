@@ -3,6 +3,7 @@ package com.pe.biblioteca.components;
 import com.formdev.flatlaf.json.ParseException;
 import com.pe.biblioteca.dao.PrestamoDao;
 import com.pe.biblioteca.daoimpl.PrestamoDaoImpl;
+import com.pe.biblioteca.utils.ReporteExcel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,8 +29,6 @@ public class Registros extends javax.swing.JPanel {
         } catch (java.text.ParseException ex) {
             System.out.println(ex.toString());
         }
-        
-        this.btnExcel.setVisible(false);
     }
 
     public void InitStyles() {
@@ -167,7 +166,8 @@ public class Registros extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
-
+        DefaultTableModel modeloTabla = (DefaultTableModel) tablaReportes.getModel();
+        ReporteExcel.generateReport(modeloTabla);
     }//GEN-LAST:event_btnExcelActionPerformed
 
 
