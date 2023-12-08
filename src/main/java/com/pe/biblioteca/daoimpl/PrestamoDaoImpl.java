@@ -28,7 +28,7 @@ public class PrestamoDaoImpl implements PrestamoDao {
     public List<HashMap<String, Object>> findAll() {
         String sql = "SELECT p.id,c.nombre as cliente ,p.fecha_prestamo,p.fecha_entrega\n"
                 + "FROM prestamo as p\n"
-                + "JOIN cliente as c ON p.id_cliente = c.id;";
+                + "JOIN cliente as c ON p.id_cliente = c.id order by p.id;";
 
         List<HashMap<String, Object>> lista = new ArrayList<>();
         try {
