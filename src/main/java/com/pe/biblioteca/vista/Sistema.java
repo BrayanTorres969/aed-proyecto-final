@@ -1,5 +1,6 @@
 package com.pe.biblioteca.vista;
 
+import com.pe.biblioteca.arbol.ArbolVista;
 import com.pe.biblioteca.components.Clientes;
 import com.pe.biblioteca.components.Devoluciones;
 import com.pe.biblioteca.components.Libros;
@@ -68,6 +69,7 @@ public class Sistema extends javax.swing.JFrame {
         btnDevoluciones = new javax.swing.JButton();
         btnClientes = new javax.swing.JButton();
         btnLibros = new javax.swing.JButton();
+        btnArbol = new javax.swing.JButton();
         content = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -169,6 +171,19 @@ public class Sistema extends javax.swing.JFrame {
             }
         });
 
+        btnArbol.setBackground(new java.awt.Color(28, 56, 121));
+        btnArbol.setForeground(new java.awt.Color(249, 245, 235));
+        btnArbol.setIcon(new javax.swing.ImageIcon(getClass().getResource("/arboles.png"))); // NOI18N
+        btnArbol.setText("Arbol");
+        btnArbol.setBorderPainted(false);
+        btnArbol.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnArbol.setIconTextGap(10);
+        btnArbol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnArbolActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
         header.setLayout(headerLayout);
         headerLayout.setHorizontalGroup(
@@ -193,7 +208,9 @@ public class Sistema extends javax.swing.JFrame {
                         .addComponent(btnLibros, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
                         .addComponent(btnRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(155, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnArbol, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(20, Short.MAX_VALUE))))
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -211,7 +228,8 @@ public class Sistema extends javax.swing.JFrame {
                     .addComponent(btnPrestamos, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDevoluciones, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLibros, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnLibros, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnArbol, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
 
@@ -289,6 +307,12 @@ public class Sistema extends javax.swing.JFrame {
         ShowJPanel(new Devoluciones());
     }//GEN-LAST:event_btnDevolucionesActionPerformed
 
+    private void btnArbolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArbolActionPerformed
+        // TODO add your handling code here:
+        ArbolVista arbolVista = new ArbolVista();
+        arbolVista.setVisible(true);
+    }//GEN-LAST:event_btnArbolActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -305,6 +329,7 @@ public class Sistema extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
+    private javax.swing.JButton btnArbol;
     private javax.swing.JButton btnClientes;
     private javax.swing.JButton btnDevoluciones;
     private javax.swing.JButton btnLibros;
